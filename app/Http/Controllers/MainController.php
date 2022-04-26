@@ -4,24 +4,24 @@ namespace App\Http\Controllers;
 
 class MainController extends Controller
 {
-    public function index() {
+    public function main() {
         return view( 'welcome' );
     }
 
-    public function form_post() {
+    /*public function form_post() {
         return response()->json( [ 'name' => 'Ravil', 'age' => 41 ], 201 );
-    }
+    }*/
 
-    public function form_put() {
+    /*public function form_put() {
         return response()->json( [ 'name' => 'Ravil', 'age' => 42 ] );
-    }
+    }*/
 
-    public function form_any() {
+    /*public function form_any() {
         return response()->json( [ 'always' => 'response' ] );
-    }
+    }*/
 
     // Возвращает строку и статус 201
-    public function html() {
+    /*public function html() {
         return response( 'response html', 201 );
-    }
+    }*/
 }
