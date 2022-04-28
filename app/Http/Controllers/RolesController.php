@@ -111,4 +111,23 @@ class RolesController extends Controller
 
         return $res;
     }
+
+
+    public function show( $role_id, $year = '' ) {
+
+        // $role = Role::find( $role_id );
+        $role = Role::where( 'id', '=', $role_id )->orWhere( 'created_at', 'like', "$year-%" )->get();
+
+        if ( empty( $role ) ) {
+            return response( [ 'empty' ], 404 );
+        }
+
+        return response()->json( [ 'data' => $role ] );
+    }
+
+
+    // Тоже самое что и метод show только короче
+    public function show_2( Role $role ) {
+        return response()->json( [ 'data' => $role ] );
+    }
 }
