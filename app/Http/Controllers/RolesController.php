@@ -11,60 +11,56 @@ class RolesController extends Controller
      * INSERT row to DB
      * https://laravel.su/docs/8.x/eloquent
      */
-    public function create() {
-        // Вариант 1
-        /*$role = new Role();
-        $role->name = 'Client';
-        $role->save();*/
+    public function create( Request $request ) {
+        if ( $request->filled( 'name' ) ) {
+            Role::create( $request->only( [ 'name' ] ) );
+            // Role::create( [ 'name' => $request->input( 'name' ) ] );
+        }
 
-        
-        // Вариант 2
-        /*Role::insert(['name'=>'Admin 1']);
-
-        $dt = Date('Y-m-d H:i:s');
-        Role::insert(['name'=>'Admin 2', 'created_at'=>$dt, 'updated_at'=>$dt]);*/
-
-
-        // Вариант 3
-        Role::create(['name'=>'Manager']);
-
+        return response( $request->filled( 'name' ) );
         return response()->json(true);
     }
 
 
     /**
-     * DELETE | UPDATE | SELECT
-     * https://laravel.su/docs/8.x/eloquent
+     * ------------------------
+     * UPDATE
+     * ------------------------
      */
-    public function index() {
-        /**
-         * ------------------------
-         * DELETE
-         * ------------------------
-         */
-        // Role::where('name', '=', 'Manager')->delete(); 
-
-
-
-        /**
-         * ------------------------
-         * UPDATE
-         * ------------------------
-         */
+    public function update( Request $request, $role_id ) {
         // Вариани 1
-        $row = Role::find(3);
+        /*$row = Role::find(3);
         $row->name = 'Admin'; // замена значения
-        $row->save();
+        $row->save();*/
 
         // Варирнт 2
-        $row = Role::where('name', '=', 'Admin')->update([
+        /*$row = Role::where('name', '=', 'Admin')->update([
             'name' => 'Admin 2'
         ]);
 
-        dump($row);
+        dump($row);*/
+
+        Role::whereId( $role_id )->update( [ 'name' => $request->input( 'name' ) ] );
+        return response()->json( $role_id );
+    }
 
 
+    /**
+     * ------------------------
+     * DELETE
+     * ------------------------
+     */
+    public function delete( $role_id ) {
+        // Role::where( 'name', '=', 'Manager' )->delete();
+        Role::find( $role_id )->delete();
+    }
 
+
+    /**
+     * SELECT
+     * https://laravel.su/docs/8.x/eloquent
+     */
+    public function index() {
         /**
          * ------------------------
          * SELECT

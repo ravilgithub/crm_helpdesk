@@ -17,4 +17,11 @@ class Role extends Model
     protected $fillable = [
         'name',
     ];
+
+    /**
+     * Атрибуты, для которых НЕ разрешено массовое присвоение значений.
+     *
+     * @var array
+     */
+    // protected $guarded = [];
 }

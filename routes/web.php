@@ -17,8 +17,16 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [MainController::class, 'main']);
 
-Route::get('create', [RolesController::class, 'create']);
 Route::get('index', [RolesController::class, 'index']);
+
+// Insert
+Route::post( 'roles', [ RolesController::class, 'create' ] );
+
+// Update
+Route::put( 'roles/{role_id}', [ RolesController::class, 'update' ] );
+
+// Delete
+Route::get( 'roles/del/{role_id}', [ RolesController::class, 'delete' ] );
 
 // ? - необязательный параметр created_at
 Route::get( 'roles/{role_id}/{year?}', [ RolesController::class, 'show' ] );
