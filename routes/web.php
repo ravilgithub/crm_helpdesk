@@ -19,6 +19,9 @@ Route::get('/', [MainController::class, 'main']);
 
 Route::get('index', [RolesController::class, 'index']);
 
+// role = role_id
+Route::get( 'roles/{role}/users', [ RolesController::class, 'users' ] );
+
 // Insert
 Route::post( 'roles', [ RolesController::class, 'create' ] );
 

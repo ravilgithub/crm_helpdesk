@@ -41,4 +41,21 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+    /**
+     * Определение обратной связи Один ко многим.
+     *
+     * @see App\Http\Controllers\RolesController::users
+     *
+     * https://laravel.su/docs/8.x/eloquent-relationships#one-to-many-inverse
+     *
+     * SQL:
+     * SELECT DISTINCT r.* FROM users AS u JOIN roles AS r ON u.role_id = r.id WHERE r.id = 2;
+     */
+    public function role() {
+        // return $this->belongsTo( Role::class, 'role_id', 'id' );
+        // return $this->belongsTo( Role::class, 'role_id' );
+        return $this->belongsTo( Role::class );
+    }
 }

@@ -8,6 +8,35 @@ use App\Models\Role;
 class RolesController extends Controller
 {
     /**
+     * Get users by role id.
+     * @see App\Models\Role::users
+     * @see App\Models\User::role
+     */
+    public function users( Role $role ) {
+        /**
+         * Получение пользавателей из таблицы Users которые соответствуют запрошенной id роли.
+         * @see App\Models\Role::users
+         */
+        // return $role->users()->orderByDesc( 'id' )->first();
+        // return $role->users()->where( 'id', '>', 2 )->get();
+
+        // return $role->users->where( 'id', 2 );
+        // return $role->users->first();
+        // return $role->users;
+
+
+        /**
+         * Определение обратной связи Один ко многим.
+         * Получение данных о роли из родительской таблицы Roles.
+         * @see App\Models\User::role
+         */
+        // return $role->users->first()->role()->get();
+        // return $role->users->first()->role;
+        return $role->users->map->name;
+    }
+
+
+    /**
      * INSERT row to DB
      * https://laravel.su/docs/8.x/eloquent
      */
