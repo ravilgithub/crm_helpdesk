@@ -46,6 +46,7 @@ class User extends Authenticatable
     /**
      * Определение обратной связи Один ко многим.
      *
+     * @see App\Models\Role::users
      * @see App\Http\Controllers\RolesController::users
      *
      * https://laravel.su/docs/8.x/eloquent-relationships#one-to-many-inverse
@@ -58,4 +59,17 @@ class User extends Authenticatable
         // return $this->belongsTo( Role::class, 'role_id' );
         return $this->belongsTo( Role::class );
     }
+
+
+    /**
+     * Определение связи Один-ко-многим ( foreign key ).
+     *
+     * https://laravel.su/docs/8.x/eloquent-relationships#one-to-many
+     *
+     * @see Database\Factories\TicketFactory
+     */
+    public function tickets() {
+        return $this->hasMany( Ticket::class );
+    }
+
 }
