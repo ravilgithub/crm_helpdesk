@@ -18,6 +18,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $this->call( [
+            RolesSeeder::class
+        ] );
+
+
         // Создаём пользователей, но не вносим записи в таблицу.
         // Можем посмотреть структуру модели перед вставкой в таблицу, а в частности атрибуты: #attributes, #fillable, #hidden, #casts.
         /*$user = User::factory()->make();
@@ -37,7 +42,7 @@ class DatabaseSeeder extends Seeder
         ] );*/
         // Вариант 2
         // @see Database\Factories\UserFactory
-        User::factory( 1 )->admin()->create();
+        // User::factory( 1 )->admin()->create();
 
 
 
@@ -48,15 +53,12 @@ class DatabaseSeeder extends Seeder
 
 
         // https://laravel.su/docs/8.x/database-testing#has-many-relationships
-        User::factory( 3 )
+        /*User::factory( 3 )
             ->client()
             // ->has( Ticket::factory()->count( 3 ) )
             ->hasTickets( 3 ) // короткая запись
-            ->create();
+            ->create();*/
 
 
-        /*$this->call( [
-            RolesSeeder::class
-        ] );*/
     }
 }
