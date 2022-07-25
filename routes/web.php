@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\RolesController;
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,27 +18,36 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [MainController::class, 'main']);
 
-Route::get('index', [RolesController::class, 'index']);
 
-// role = role_id
-Route::get( 'roles/{role}/users', [ RolesController::class, 'users' ] );
+Route::post( 'login', [ AuthController::class, 'login' ] );
+Route::get( 'logout', [ AuthController::class, 'logout' ] );
 
-// Insert
-Route::post( 'roles', [ RolesController::class, 'create' ] );
 
-// Update
-Route::put( 'roles/{role_id}', [ RolesController::class, 'update' ] );
+// Если пользователь аутентифицирован.
+Route::middleware( [ 'auth'] )->group( function() {
+    // App\Http\Kernel
+    // auth - middleware aliase
+    Route::get( 'roles', [ RolesController::class, 'index' ] )->middleware( 'auth' );
 
-// Delete
-Route::get( 'roles/del/{role_id}', [ RolesController::class, 'delete' ] );
+    // role = role_id
+    Route::get( 'roles/{role}/users', [ RolesController::class, 'users' ] );
 
-// ? - необязательный параметр created_at
-Route::get( 'roles/{role_id}/{year?}', [ RolesController::class, 'show' ] );
+    // Insert
+    Route::post( 'roles', [ RolesController::class, 'create' ] );
 
-// по полю(колонка в БД) name
-Route::get( 'roles-2/{role:name}', [ RolesController::class, 'show_2' ] );
+    // Update
+    Route::put( 'roles/{role_id}', [ RolesController::class, 'update' ] );
 
-/*Route::get( 'roles/{role_id}', function( $role_id ) {
-    dd( $role_id );
+    // Delete
+    Route::get( 'roles/del/{role_id}', [ RolesController::class, 'delete' ] );
+
+    // ? - необязательный параметр created_at
+    Route::get( 'roles/{role_id}/{year?}', [ RolesController::class, 'show' ] );
+
+    // по полю(колонка в БД) name
+    Route::get( 'roles-2/{role:name}', [ RolesController::class, 'show_2' ] );
+
+    /*Route::get( 'roles/{role_id}', function( $role_id ) {
+        dd( $role_id );
+    } );*/
 } );
-*/

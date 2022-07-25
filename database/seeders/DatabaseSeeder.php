@@ -55,10 +55,8 @@ class DatabaseSeeder extends Seeder
         // https://laravel.su/docs/8.x/database-testing#has-many-relationships
         /*User::factory( 3 )
             ->client()
-            // ->has( Ticket::factory()->count( 3 ) )
-            ->hasTickets( 3 ) // короткая запись
+            ->has( Ticket::factory()->count( 3 ) )
+            // ->hasTickets( 3 ) // короткая запись // работает не правильно !!!
             ->create();*/
-
-
     }
 }

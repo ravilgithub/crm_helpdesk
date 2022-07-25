@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
+
 class MainController extends Controller
 {
     public function main() {

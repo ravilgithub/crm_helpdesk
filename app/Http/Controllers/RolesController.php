@@ -99,7 +99,7 @@ class RolesController extends Controller
         // $res = Role::all();
 
         // Вариант 2
-        // $res = Role::get();
+        $res = Role::get();
 
         // С условием where(col_name, operand, col_value)
         // $res = Role::where('name', '=', 'Admin 1')->get();
@@ -132,7 +132,7 @@ class RolesController extends Controller
 
 
         // Сортировка
-        $res = Role::orderByDesc('id')->get('name');
+        // $res = Role::orderByDesc('id')->get('name');
 
         return $res;
     }
