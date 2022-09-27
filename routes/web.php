@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [MainController::class, 'main']);
+Route::get( '/', [ MainController::class, 'main' ] );
 
 
 Route::post( 'login', [ AuthController::class, 'login' ] );
@@ -24,10 +24,10 @@ Route::get( 'logout', [ AuthController::class, 'logout' ] );
 
 
 // Если пользователь аутентифицирован.
-Route::middleware( [ 'auth'] )->group( function() {
+Route::middleware( [ 'auth' ] )->group( function() {
     // App\Http\Kernel
     // auth - middleware aliase
-    Route::get( 'roles', [ RolesController::class, 'index' ] )->middleware( 'auth' );
+    Route::get( 'roles', [ RolesController::class, 'index' ] );
 
     // role = role_id
     Route::get( 'roles/{role}/users', [ RolesController::class, 'users' ] );

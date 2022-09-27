@@ -14,11 +14,12 @@ class AuthTest extends TestCase
     public function testAuth() {
         $this->seed();
 
-        $password = 123456;
+        $password = '123456';
         $user = User::factory()->create( [ 'password' => bcrypt( $password ) ] );
         
         // Аутентификация
         $response = $this->post( 'login', [ 'email' => $user->email, 'password' => $password ] );
+        // dd( $response->getContent() );
         $response->assertStatus( 200 );
 
         // Получение роли
@@ -40,7 +41,7 @@ class AuthTest extends TestCase
         $this->seed();
 
         // Не верный пароль
-        $password = 123456;
+        $password = '123456';
         $user = User::factory()->create( [ 'password' => bcrypt( $password ) ] );
         
         // Аутентификация с не верным паролем.
@@ -59,7 +60,7 @@ class AuthTest extends TestCase
         $this->seed();
 
         // Не верный пароль
-        $password = 123456;
+        $password = '123456';
         $user = User::factory()->create( [ 'password' => bcrypt( $password ) ] );
         
         // Аутентификация с не верным паролем.
