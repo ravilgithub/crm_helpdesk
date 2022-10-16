@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Tests\TestCase;
+use Illuminate\Foundation\Testing\WithFaker;
 
 
 // Запуск теста в консоле по имени
@@ -11,14 +12,32 @@ use Tests\TestCase;
 
 class AuthTest extends TestCase
 {
-    public function testAuth() {
-        $this->seed();
+    use WithFaker;
 
-        $password = '123456';
-        $user = User::factory()->create( [ 'password' => bcrypt( $password ) ] );
-        
+    protected $user;
+    protected $password;
+
+
+    protected function setUp(): void {
+        parent::setUp();
+
+        $this->seed();
+        $this->password = $this->faker->password;
+        $this->user = User::factory()->create( [ 'password' => bcrypt( $this->password ) ] );
+    }
+
+
+    /**
+     * Аутентификация
+     */
+    protected function attemptToLogin( $wrong_pass_sfx = '' ) {
+        return $this->post( 'login', [ 'email' => $this->user->email, 'password' => $this->password . $wrong_pass_sfx ] );
+    }
+
+
+    public function testAuth() {
         // Аутентификация
-        $response = $this->post( 'login', [ 'email' => $user->email, 'password' => $password ] );
+        $response = $this->attemptToLogin();
         // dd( $response->getContent() );
         $response->assertStatus( 200 );
 
@@ -38,15 +57,9 @@ class AuthTest extends TestCase
 
 
     public function testAuthFailed() {
-        $this->seed();
-
-        // Не верный пароль
-        $password = '123456';
-        $user = User::factory()->create( [ 'password' => bcrypt( $password ) ] );
-        
         // Аутентификация с не верным паролем.
         // 301 - перенаправление на страницу аутентификации.
-        $response = $this->post( 'login', [ 'email' => $user->email, 'password' => $password . 7 ] );
+        $response = $this->attemptToLogin( 7 );
         $response->assertStatus( 301 );
 
         // Получение роли будучи не аутентифицированным.
@@ -57,15 +70,9 @@ class AuthTest extends TestCase
 
 
     public function testRolesAuth() {
-        $this->seed();
-
-        // Не верный пароль
-        $password = '123456';
-        $user = User::factory()->create( [ 'password' => bcrypt( $password ) ] );
-        
         // Аутентификация с не верным паролем.
         // 301 - перенаправление на страницу аутентификации.
-        $response = $this->post( 'login', [ 'email' => $user->email, 'password' => $password . 7 ] );
+        $response = $this->attemptToLogin( 7 );
         $response->assertStatus( 301 );
 
         // Попытка СОЗДАТЬ роль будучи не аутентифицированным.

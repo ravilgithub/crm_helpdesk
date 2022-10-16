@@ -19,33 +19,28 @@ class TicketTest extends TestCase
     //   php artisan migrate:refresh --seed --env=testing
     // use DatabaseTransactions;
 
-    /**
-     * A basic unit test example.
-     *
-     * @return void
-     */
-    public function test_is_new() {
-        $this->seed(); // При использовании DatabaseTransactions закомментировать.
 
-        $ticket = Ticket::factory()->create( [
-            'status' => 0 // 0 - new
-        ]);
-
-        $this->assertTrue($ticket->isNew());
+    public function getTestData(): array {
+        return [
+            [ 0, true ],
+            [ 1, false ]
+        ];
     }
 
+
     /**
-     * A basic unit test example.
+     * Тест на новые заявки.
+     * Тест запустится столько раз, сколько элементов в (возвращающем методом getTestData) массиве.
      *
-     * @return void
+     * @dataProvider getTestData
      */
-    public function test_is_not_new() {
+    public function testIsNew( $status, $exceptedResult ): void {
         $this->seed(); // При использовании DatabaseTransactions закомментировать.
 
         $ticket = Ticket::factory()->create( [
-            'status' => 1 // 1 - not new
+            'status' => $status // 0 - new
         ]);
 
-        $this->assertFalse($ticket->isNew());
-    }    
+        $this->assertEquals( $exceptedResult, $ticket->isNew() );
+    }
 }
