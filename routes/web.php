@@ -25,29 +25,34 @@ Route::get( 'logout', [ AuthController::class, 'logout' ] );
 
 // Если пользователь аутентифицирован.
 Route::middleware( [ 'auth' ] )->group( function() {
-    // App\Http\Kernel
-    // auth - middleware aliase
-    Route::get( 'roles', [ RolesController::class, 'index' ] );
+    Route::get( 'home', [ AuthController::class, 'home' ] );
 
-    // role = role_id
-    Route::get( 'roles/{role}/users', [ RolesController::class, 'users' ] );
+    // Если пользователь авторизирован как админ.
+    Route::middleware( [ 'roles:admin' ] )->group( function() {
+        // App\Http\Kernel
+        // auth - middleware aliase
+        Route::get( 'roles', [ RolesController::class, 'index' ] );
 
-    // Insert
-    Route::post( 'roles', [ RolesController::class, 'create' ] );
+        // role = role_id
+        Route::get( 'roles/{role}/users', [ RolesController::class, 'users' ] );
 
-    // Update
-    Route::put( 'roles/{role_id}', [ RolesController::class, 'update' ] );
+        // Insert
+        Route::post( 'roles', [ RolesController::class, 'create' ] );
 
-    // Delete
-    Route::get( 'roles/del/{role_id}', [ RolesController::class, 'delete' ] );
+        // Update
+        Route::put( 'roles/{role_id}', [ RolesController::class, 'update' ] );
 
-    // ? - необязательный параметр created_at
-    Route::get( 'roles/{role_id}/{year?}', [ RolesController::class, 'show' ] );
+        // Delete
+        Route::get( 'roles/del/{role_id}', [ RolesController::class, 'delete' ] );
 
-    // по полю(колонка в БД) name
-    Route::get( 'roles-2/{role:name}', [ RolesController::class, 'show_2' ] );
+        // ? - необязательный параметр created_at
+        Route::get( 'roles/{role_id}/{year?}', [ RolesController::class, 'show' ] );
 
-    /*Route::get( 'roles/{role_id}', function( $role_id ) {
-        dd( $role_id );
-    } );*/
+        // по полю(колонка в БД) name
+        Route::get( 'roles-2/{role:name}', [ RolesController::class, 'show_2' ] );
+
+        /*Route::get( 'roles/{role_id}', function( $role_id ) {
+            dd( $role_id );
+        } );*/
+    } );
 } );

@@ -20,6 +20,13 @@ class TicketTest extends TestCase
     // use DatabaseTransactions;
 
 
+    /**
+     * Тестовые данные.
+     *
+     * @see testIsNew()
+     *
+     * @return Array
+     */
     public function getTestData(): array {
         return [
             [ 0, true ],
@@ -30,17 +37,24 @@ class TicketTest extends TestCase
 
     /**
      * Тест на новые заявки.
-     * Тест запустится столько раз, сколько элементов в (возвращающем методом getTestData) массиве.
+     * Тест запустится столько раз, сколько элементов в (возвращаемом методом getTestData) массиве.
      *
      * @dataProvider getTestData
+     *
+     * @see App\Models\Ticket::isNew()
+     *
+     * @param Integer $status         - статус заявки: 0 - новая, 1 - старая.
+     * @param Boolean $expectedResult - ожидаемый результат сравнения заявки.
+     *
+     * @return Void
      */
-    public function testIsNew( $status, $exceptedResult ): void {
+    public function testIsNew( int $status, bool $expectedResult ): void {
         $this->seed(); // При использовании DatabaseTransactions закомментировать.
 
         $ticket = Ticket::factory()->create( [
             'status' => $status // 0 - new
         ]);
 
-        $this->assertEquals( $exceptedResult, $ticket->isNew() );
+        $this->assertEquals( $expectedResult, $ticket->isNew() );
     }
 }

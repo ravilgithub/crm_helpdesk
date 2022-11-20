@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 
 
@@ -12,12 +13,23 @@ use Illuminate\Foundation\Testing\WithFaker;
 
 class AuthTest extends TestCase
 {
-    use WithFaker;
+    use RefreshDatabase, WithFaker;
 
     protected $user;
     protected $password;
 
 
+    /**
+     * Заполняем таблицы начальными данными.
+     *  @see Database\Seeders\DatabaseSeeder
+     *
+     * Создаём пользавателя.
+     *  @see Database\Factories\UserFactory
+     *
+     * Метод будет запускаться перед каждым тестом класса.
+     *
+     * @return void
+     */
     protected function setUp(): void {
         parent::setUp();
 
@@ -28,13 +40,22 @@ class AuthTest extends TestCase
 
 
     /**
-     * Аутентификация
+     * Аутентификация пользавателя.
+     *
+     * @param String $wrong_pass_sfx - окончание пароля для формирования заведомо не правильного пароля.
+     *
+     * @return Object response
      */
     protected function attemptToLogin( $wrong_pass_sfx = '' ) {
         return $this->post( 'login', [ 'email' => $this->user->email, 'password' => $this->password . $wrong_pass_sfx ] );
     }
 
 
+    /**
+     * Аутентификация.
+     *
+     * @return void
+     */
     public function testAuth() {
         // Аутентификация
         $response = $this->attemptToLogin();
@@ -42,7 +63,7 @@ class AuthTest extends TestCase
         $response->assertStatus( 200 );
 
         // Получение роли
-        $response = $this->get( 'roles' );
+        $response = $this->get( 'home' );
         $response->assertStatus( 200 );
 
         // Выход
@@ -51,11 +72,16 @@ class AuthTest extends TestCase
 
         // Получение роли после выхода.
         // 301 - перенаправление на страницу аутентификации.
-        $response = $this->get( 'roles' );
+        $response = $this->get( 'home' );
         $response->assertStatus( 301 );
     }
 
 
+    /**
+     * Аутентификация с не верным паролем.
+     *
+     * @return void
+     */
     public function testAuthFailed() {
         // Аутентификация с не верным паролем.
         // 301 - перенаправление на страницу аутентификации.
@@ -64,11 +90,16 @@ class AuthTest extends TestCase
 
         // Получение роли будучи не аутентифицированным.
         // 301 - перенаправление на страницу аутентификации.
-        $response = $this->get( 'roles' );
+        $response = $this->get( 'home' );
         $response->assertStatus( 301 );
     }
 
 
+    /**
+     * Попытка СОЗДАТЬ роль будучи не аутентифицированным.
+     *
+     * @return void
+     */
     public function testRolesAuth() {
         // Аутентификация с не верным паролем.
         // 301 - перенаправление на страницу аутентификации.
