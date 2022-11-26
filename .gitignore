@@ -1,9 +1,12 @@
 /node_modules
 /public/hot
 /public/storage
+/public/css/
+/public/js/
+/public/mix-manifest.json
 /storage/*.key
 /vendor
-.env
+#.env
 .env.backup
 .phpunit.result.cache
 docker-compose.override.yml
@@ -14,3 +17,6 @@ yarn-error.log
 /.idea
 /.vscode
 *.bak
+/composer.lock
+/composer.phar
+/package-lock.json

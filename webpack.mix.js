@@ -11,7 +11,20 @@ const mix = require('laravel-mix');
  |
  */
 
+mix.webpackConfig({
+    module: {
+        rules: [
+
+            // Pug
+            {
+                test: /\.pug$/,
+                loader: 'vue-pug-loader',
+            },
+
+        ],
+    }
+});
+
 mix.js('resources/js/app.js', 'public/js')
-    .postCss('resources/css/app.css', 'public/css', [
-        //
-    ]);
+    .vue({ version: 3 } )
+    .postCss('resources/css/app.css', 'public/css', []);
