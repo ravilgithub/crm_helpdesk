@@ -3,39 +3,69 @@
 h1= title
 
 input(
-    type='text',
-    v-model='title'
+    type="text",
+    v-model="title"
 )
 
-ul
-    li(
-        v-for='user in users',
-        :key='getKey()'
-    )= user
+
+// Users list
+user(
+    v-for="user in users"
+    :user="user"
+    :key="getKey()"
+) Some test
+
+
+// Add User
+input(
+    v-model="firstName"
+    type="text"
+    placeholder="First name"
+)
 
 input(
-    type='text'
-    v-model='name'
+    v-model="lastName"
+    type="text"
+    placeholder="Last name"
 )
 
 button.btn(
-    @click='addUser'
+    @click="addUser"
 ) Add user
 
 </template>
 
 <script>
+    import User from './User'
+
     export default {
         name: "AppHome",
+
+        components: {
+            User
+        },
+
         data() {
             return {
                 title: 'Crm Helpdesk!',
+
                 users: [
-                    'John Smith',
-                    'Mike Dow',
-                    'Jane Dow',
+                    {
+                        first: 'John',
+                        last: 'Smith'
+                    },
+                    {
+                        first: 'Mike',
+                        last: 'Dow'
+                    },
+                    {
+                        first: 'Jane',
+                        last: 'Dow'
+                    }
                 ],
-                name: null,
+
+                firstName: null,
+                lastName: null
             }
         },
 
@@ -45,12 +75,17 @@ button.btn(
             },
 
             addUser() {
-                if ( this.name ) {
-                    this.users.push( this.name )
-                    this.name = null
+                if ( this.firstName && this.lastName ) {
+                    this.users.push( {
+                        first: this.firstName,
+                        last: this.lastName }
+                    )
+
+                    this.firstName = null
+                    this.lastName = null
                 }
-            },
-        },
+            }
+        }
     }
 </script>
 
@@ -63,4 +98,7 @@ button.btn(
 
     p
         background-color: $baseBgColor
+
+    input
+        display: block
 </style>
