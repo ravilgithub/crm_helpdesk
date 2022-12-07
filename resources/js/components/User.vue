@@ -1,7 +1,9 @@
 <template lang="pug">
 
 .user
-    h2.user__item {{user.first}} {{user.last}}
+    .user__fio {{user.first}} {{user.last}}
+    small.user__role( v-if="user.role === 'client'" )= user.role
+    p.user__role( v-else )= user.role
     slot
 
 </template>
@@ -12,7 +14,7 @@ export default {
 
     props: {
       user: {
-         type: Array,
+         type: Object,
          required: true
       }
     }
@@ -25,6 +27,9 @@ export default {
         padding-bottom: 10px
         border-bottom: 1px solid #555
 
-        &__item
+        &__fio
             /**/
+
+        &__role
+            display: block
 </style>

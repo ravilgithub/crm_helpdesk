@@ -1,6 +1,6 @@
 <template lang="pug">
 
-h1= title
+h1 {{title}}
 
 input(
     type="text",
@@ -10,28 +10,45 @@ input(
 
 // Users list
 user(
-    v-for="user in users"
+    v-for="user in shouldShowUsers"
     :user="user"
     :key="getKey()"
 ) Some test
 
 
 // Add User
-input(
-    v-model="firstName"
-    type="text"
-    placeholder="First name"
-)
+form.form.form--add-user
+    input.form__item.form__item--text(
+        v-model="firstName"
+        type="text"
+        placeholder="First name"
+        required
+    )
 
-input(
-    v-model="lastName"
-    type="text"
-    placeholder="Last name"
-)
+    input.form__item.form__item--text(
+        v-model="lastName"
+        type="text"
+        placeholder="Last name"
+        required
+    )
 
-button.btn(
-    @click="addUser"
-) Add user
+    select.form__item.form__item--select(
+        v-model="selectedRole"
+        required
+    )
+        option(
+            value=""
+            disabled
+        ) Please select one
+        option(
+            v-for="role in roles"
+            :key="getKey()"
+            :value="role"
+        ) {{role}}
+
+    button.btn.form__item.form__item--btn(
+        @click="addUser"
+    ) Add user
 
 </template>
 
@@ -51,38 +68,82 @@ button.btn(
 
                 users: [
                     {
-                        first: 'John',
-                        last: 'Smith'
+                        first: 'Dmitriy',
+                        last:  'Petrov',
+                        role:  'admin'
                     },
                     {
-                        first: 'Mike',
-                        last: 'Dow'
+                        first: 'Nikolay',
+                        last:  'Ivanov',
+                        role:  'main-manager'
                     },
                     {
-                        first: 'Jane',
-                        last: 'Dow'
+                        first: 'Irina',
+                        last:  'Lavrova',
+                        role:  'manager'
+                    },
+                    {
+                        first: 'Vasiliy',
+                        last:  'Frolov',
+                        role:  'client'
+                    },
+                    {
+                        first: 'Tatiana',
+                        last:  'Corokina',
+                        role:  'client'
                     }
                 ],
 
-                firstName: null,
-                lastName: null
+                firstName: '',
+                lastName: '',
+                selectedRole: '',
+
+                roles: [
+                    'admin',
+                    'main-manager',
+                    'manager',
+                    'client'
+                ],
+
+                userRole: ''
+            }
+        },
+
+        created() {
+            this.userRole = this.getUserRole()
+        },
+
+        computed: {
+            shouldShowUsers() {
+                return this.users.filter( user => user.role !== this.userRole )
             }
         },
 
         methods: {
+            // Temp method
+            getUserRole() {
+                const queryString = window.location.search,
+                    urlParams = new URLSearchParams( queryString ),
+                    role = urlParams.get( 'role' )
+
+                return role ? role : this.userRole
+            },
+
             getKey() {
                 return Math.random().toString( 36 ).slice( -10 )
             },
 
             addUser() {
-                if ( this.firstName && this.lastName ) {
+                if ( this.firstName && this.lastName && this.selectedRole ) {
                     this.users.push( {
                         first: this.firstName,
-                        last: this.lastName }
-                    )
+                        last: this.lastName,
+                        role: this.selectedRole
+                    } )
 
-                    this.firstName = null
-                    this.lastName = null
+                    this.firstName = ''
+                    this.lastName = ''
+                    this.selectedRole = ''
                 }
             }
         }
@@ -99,6 +160,9 @@ button.btn(
     p
         background-color: $baseBgColor
 
-    input
-        display: block
+    .form
+        &__item
+            display: block
+            margin-top: 4px
+
 </style>

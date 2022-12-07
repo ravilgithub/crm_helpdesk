@@ -55,6 +55,9 @@ class AuthTest extends TestCase
      * Аутентификация.
      *
      * @return void
+     *
+     * 401 (Unauthorized), это означает, что вы пытаетесь получить доступ к странице,
+     * на которую нужно сначала войти, используя действительный ID пользователя и пароль для просмотра.
      */
     public function testAuth() {
         // Аутентификация
@@ -71,9 +74,8 @@ class AuthTest extends TestCase
         $response->assertStatus( 200 );
 
         // Получение роли после выхода.
-        // 301 - перенаправление на страницу аутентификации.
         $response = $this->get( 'home' );
-        $response->assertStatus( 301 );
+        $response->assertStatus( 401 );
     }
 
 
@@ -81,17 +83,18 @@ class AuthTest extends TestCase
      * Аутентификация с не верным паролем.
      *
      * @return void
+     *
+     * 401 (Unauthorized), это означает, что вы пытаетесь получить доступ к странице,
+     * на которую нужно сначала войти, используя действительный ID пользователя и пароль для просмотра.
      */
     public function testAuthFailed() {
         // Аутентификация с не верным паролем.
-        // 301 - перенаправление на страницу аутентификации.
         $response = $this->attemptToLogin( 7 );
-        $response->assertStatus( 301 );
+        $response->assertStatus( 401 );
 
         // Получение роли будучи не аутентифицированным.
-        // 301 - перенаправление на страницу аутентификации.
         $response = $this->get( 'home' );
-        $response->assertStatus( 301 );
+        $response->assertStatus( 401 );
     }
 
 
@@ -99,16 +102,17 @@ class AuthTest extends TestCase
      * Попытка СОЗДАТЬ роль будучи не аутентифицированным.
      *
      * @return void
+     *
+     * 401 (Unauthorized), это означает, что вы пытаетесь получить доступ к странице,
+     * на которую нужно сначала войти, используя действительный ID пользователя и пароль для просмотра.
      */
     public function testRolesAuth() {
         // Аутентификация с не верным паролем.
-        // 301 - перенаправление на страницу аутентификации.
         $response = $this->attemptToLogin( 7 );
-        $response->assertStatus( 301 );
+        $response->assertStatus( 401 );
 
         // Попытка СОЗДАТЬ роль будучи не аутентифицированным.
-        // 301 - перенаправление на страницу аутентификации.
         $response = $this->post( 'roles' );
-        $response->assertStatus( 301 );
+        $response->assertStatus( 401 );
     }
 }

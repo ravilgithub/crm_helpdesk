@@ -46,13 +46,16 @@ class Handler extends ExceptionHandler
      *
      * @parent /Illuminate/Foundation/Exceptions/Handler.php
      * @throws /Illuminate/Validation/ValidationException.php
+     *
+     * 401 (Unauthorized), это означает, что вы пытаетесь получить доступ к странице,
+     * на которую нужно сначала войти, используя действительный ID пользователя и пароль для просмотра.
      */
     public function render($request, Throwable $e) {
         if ( $e instanceof ValidationException )
             return $this->invalidJson( $request, $e );
 
         if ( $e instanceof AuthenticationException )
-            return response( false, 301 );
+            return response( false, 401 );
 
         return parent::render( $request, $e );
     }
