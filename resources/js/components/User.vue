@@ -2,8 +2,8 @@
 
 .user
     .user__fio {{user.first}} {{user.last}}
-    small.user__role( v-if="user.role === 'client'" )= user.role
-    p.user__role( v-else )= user.role
+    small.user__role( v-if="user.role === 'client'" :class="roleHighlight" )= user.role
+    p.user__role( v-else :class="roleHighlight" )= user.role
     slot
 
 </template>
@@ -17,11 +17,22 @@ export default {
          type: Object,
          required: true
       }
+    },
+
+    computed: {
+      roleHighlight() {
+          return 'user__role--' + this.user.role
+      }
     }
 }
 </script>
 
 <style lang="sass" scoped>
+    $admin-color: green
+    $main-manager-color: coral
+    $manager-color: blue
+    $client-color: red
+
     .user
         margin-bottom: 10px
         padding-bottom: 10px
@@ -32,4 +43,13 @@ export default {
 
         &__role
             display: block
+
+            &--admin
+                color: $admin-color
+            &--main-manager
+                color: $main-manager-color
+            &--manager
+                color: $manager-color
+            &--client
+                color: $client-color
 </style>

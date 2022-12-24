@@ -9,11 +9,12 @@ input(
 
 
 // Users list
-user(
-    v-for="user in shouldShowUsers"
-    :user="user"
-    :key="getKey()"
-) Some test
+.users
+    user(
+        v-for="user in shouldShowUsers"
+        :user="user"
+        :key="getKey()"
+    ) Some test
 
 
 // Add User
@@ -151,18 +152,13 @@ form.form.form--add-user
 </script>
 
 <style lang="sass" scoped>
-    $baseColor: #5830ea
-    $baseBgColor: #d7d7d7
-
-    *
-        color: $baseColor
-
-    p
-        background-color: $baseBgColor
-
     .form
         &__item
             display: block
             margin-top: 4px
 
+    .users
+        margin-top: 30px
+        padding-top: 10px
+        border-top: 1px solid #555
 </style>
