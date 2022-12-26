@@ -1,9 +1,7 @@
-require('./bootstrap');
+require('./bootstrap')
 
-console.log( 'Hello, World!' );
+import { createApp } from "vue"
+import router from "./router"
+import App from "./App.vue"
 
-import { createApp } from "vue";
-import AppHome from "./components/AppHome";
-
-createApp( AppHome ).mount( '#app' );
-
+createApp( App ).use( router ).mount( '#app' )

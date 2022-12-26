@@ -24,9 +24,7 @@
     </head>
 
     <body class="antialiased">
-        <div id="app">
-            <app-home></app-home>
-        </div>
+        <div id="app"></div>
 
         <script src="/js/app.js" type="module"></script>
     </body>
