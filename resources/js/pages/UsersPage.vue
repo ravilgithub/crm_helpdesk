@@ -12,21 +12,21 @@
 // Add User
 form.form.form--add-user
     input.form__item.form__item--text(
-        v-model="firstName"
+        v-model="fname"
         type="text"
         placeholder="First name"
         required
     )
 
     input.form__item.form__item--text(
-        v-model="lastName"
+        v-model="lname"
         type="text"
         placeholder="Last name"
         required
     )
 
     select.form__item.form__item--select(
-        v-model="selectedRole"
+        v-model="role"
         required
     )
         option(
@@ -60,35 +60,40 @@ export default {
         return {
             users: [
                 {
-                    first: 'Dmitriy',
-                    last:  'Petrov',
+                    id: 1,
+                    fname: 'Dmitriy',
+                    lname:  'Petrov',
                     role:  'admin',
                 },
                 {
-                    first: 'Nikolay',
-                    last:  'Ivanov',
+                    id: 2,
+                    fname: 'Nikolay',
+                    lname:  'Ivanov',
                     role:  'main-manager',
                 },
                 {
-                    first: 'Irina',
-                    last:  'Lavrova',
+                    id: 3,
+                    fname: 'Irina',
+                    lname:  'Lavrova',
                     role:  'manager',
                 },
                 {
-                    first: 'Vasiliy',
-                    last:  'Frolov',
+                    id: 4,
+                    fname: 'Vasiliy',
+                    lname:  'Frolov',
                     role:  'client',
                 },
                 {
-                    first: 'Tatiana',
-                    last:  'Corokina',
+                    id: 5,
+                    fname: 'Tatiana',
+                    lname:  'Corokina',
                     role:  'client',
                 },
             ],
 
-            firstName: '',
-            lastName: '',
-            selectedRole: '',
+            fname: '',
+            lname: '',
+            role: '',
 
             roles: [
                 'admin',
@@ -126,16 +131,18 @@ export default {
         },
 
         addUser() {
-            if ( this.firstName && this.lastName && this.selectedRole ) {
+            if ( this.fname && this.lname && this.role ) {
+                const userId = this.users.length + 1
                 this.users.push( {
-                    first: this.firstName,
-                    last: this.lastName,
-                    role: this.selectedRole,
+                    id: userId,
+                    fname: this.fname,
+                    lname: this.lname,
+                    role: this.role,
                 } )
 
-                this.firstName = ''
-                this.lastName = ''
-                this.selectedRole = ''
+                this.fname = ''
+                this.lname = ''
+                this.role = ''
             }
         },
     },

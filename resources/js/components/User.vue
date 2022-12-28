@@ -1,10 +1,11 @@
 <template lang="pug">
 
 .user
-    .user__fio {{user.first}} {{user.last}}
+    .user__fio {{user.fname}} {{user.lname}}
     small.user__role( v-if="user.role === 'client'" :class="roleHighlight" )= user.role
     p.user__role( v-else :class="roleHighlight" )= user.role
     slot
+    router-link( :to="'/users/' + user.id" class="user__details" ) User page
 
 </template>
 
@@ -24,7 +25,7 @@ export default {
       roleHighlight() {
           return 'user__role--' + this.user.role
       },
-    }
+    },
 }
 
 </script>
@@ -55,5 +56,8 @@ $client-color: red
             color: $manager-color
         &--client
             color: $client-color
+
+    &__details
+        display: block
 
 </style>
