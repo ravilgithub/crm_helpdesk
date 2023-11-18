@@ -17,7 +17,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get( '/', [ MainController::class, 'main' ] );
-
+Route::get( '/users', [ MainController::class, 'users' ] );
+Route::get( '/users/{user_id}', [ MainController::class, 'user' ] );
 
 Route::post( 'login', [ AuthController::class, 'login' ] );
 Route::get( 'logout', [ AuthController::class, 'logout' ] );

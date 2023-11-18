@@ -1,9 +1,8 @@
 <template lang="pug">
 
 .user
-    .user__fio {{user.fname}} {{user.lname}}
-    small.user__role( v-if="user.role === 'client'" :class="roleHighlight" )= user.role
-    p.user__role( v-else :class="roleHighlight" )= user.role
+    h2.user__fio= user.name
+    p.user__role( :class="roleHighlight" )= user.role
     slot
     router-link( :to="'/users/' + user.id" class="user__details" ) User page
 
@@ -15,16 +14,16 @@ export default {
     name: "User",
 
     props: {
-      user: {
-         type: Object,
-         required: true,
-      }
+        user: {
+            type: Object,
+            required: true,
+        }
     },
 
     computed: {
-      roleHighlight() {
-          return 'user__role--' + this.user.role
-      },
+        roleHighlight() {
+            return 'user__role--' + this.user.role.toLowerCase()
+        },
     },
 }
 

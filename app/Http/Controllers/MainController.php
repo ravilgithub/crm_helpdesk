@@ -2,12 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Role;
+use App\Models\User;
 
 class MainController extends Controller
 {
     public function main() {
         return view( 'welcome' );
+    }
+
+    public function users() {
+        return User::get()->map( fn( User $user ) => [
+            'id' => $user->id,
+            'role' => $user->role->name,
+            'name' => $user->name,
+            'email' => $user->email,
+        ] );
+    }
+
+    public function user( $user_id ) {
+        return User::find( $user_id )->only( 'name', 'email' );
     }
 
     /*public function form_post() {

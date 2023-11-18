@@ -1,11 +1,9 @@
 <template lang="pug">
 
 .user
-    .user__details( v-if="getUser" )
-        h1 {{getUser.fname}} {{getUser.lname}}
-        p Роль: {{getUser.role}}
-        p ID: {{getUser.id}}
-    .user__notexist( v-else ) Пользователь с ID {{id}} не существует.
+    .user__details
+        h1= user.name
+        p= user.email
 
 </template>
 
@@ -15,55 +13,27 @@ export default {
 
     data() {
         return {
-            id: null,
-
-            users: [
-                {
-                    id: 1,
-                    fname: 'Dmitriy',
-                    lname:  'Petrov',
-                    role:  'admin',
-                },
-                {
-                    id: 2,
-                    fname: 'Nikolay',
-                    lname:  'Ivanov',
-                    role:  'main-manager',
-                },
-                {
-                    id: 3,
-                    fname: 'Irina',
-                    lname:  'Lavrova',
-                    role:  'manager',
-                },
-                {
-                    id: 4,
-                    fname: 'Vasiliy',
-                    lname:  'Frolov',
-                    role:  'client',
-                },
-                {
-                    id: 5,
-                    fname: 'Tatiana',
-                    lname:  'Corokina',
-                    role:  'client',
-                },
-            ],
+            user: {},
         }
     },
 
-    created() {
-        this.id = parseInt( this.$route.params.id )
+    mounted() {
+        this.getUserData()
     },
 
-    computed: {
-        getUser() {
-            return this.users.filter( user => user.id === this.id )[ 0 ]
+    methods: {
+        async getUserData() {
+            // Vue Route
+            const userId = this.$route.params.id
+
+            // Laravel Route
+            const response = await axios.get(`/users/${userId}`)
+
+            if (200 === response.status)
+                this.user = response.data
         },
     },
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
