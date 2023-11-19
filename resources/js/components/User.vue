@@ -4,7 +4,7 @@
     h2.user__fio= user.name
     p.user__role( :class="roleHighlight" )= user.role
     slot
-    router-link( :to="'/users/' + user.id" class="user__details" ) User page
+    router-link( :to="{ name: 'user', params: { id: user.id }}" class="user__details" ) User page
 
 </template>
 
